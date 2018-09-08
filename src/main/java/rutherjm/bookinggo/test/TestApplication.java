@@ -18,7 +18,10 @@ public class TestApplication {
 
         if (response.getStatusCode() == HttpStatus.OK){
             SuccessfulResponse sr = JsonUtils.deserialize(response.getBody().toString());
-            System.out.println(sr.getOptions()[1].carType);
+            for (Option option: sr.getOptions())
+            {
+                System.out.println(option.carType + " - " + option.price);
+            }
         }
         else if ((response.getStatusCodeValue() == 400) || (response.getStatusCodeValue() == 500)){
             ErrorResponse er = JsonUtils.deserializeError(response.getBody().toString());
