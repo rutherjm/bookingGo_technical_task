@@ -4,9 +4,11 @@ import com.sun.net.httpserver.Authenticator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.xml.ws.Response;
 import java.util.ArrayList;
 
 import static rutherjm.bookinggo.test.ConstantUtils.*;
@@ -29,42 +31,60 @@ public class AccessSupplierService {
         TAXI_CAPACITY.put("MINIBUS", 16);
 
         //Fetch responses for each supplier based on the query parameter.
-        ArrayList<ResponseEntity> responses = new ArrayList<>();
-        ArrayList<SuccessfulResponse> deserializedResponses = new ArrayList<>();
-
+        ArrayList<Option> allOptions = new ArrayList<>();
+        ArrayList<Option> cheapestOptions = new ArrayList<>();
         for (String id : TAXI_FIRM_IDS)
         {
-            responses.add(getResponse(q, id));
-        }
-
-        //Collect the options from each 200-OK response.
-        for (ResponseEntity response: responses)
-        {
-           if (response.getStatusCodeValue() == 200){
-               //this is a 200-OK response - we can collect useful options.
-               //deserialize response.
-               deserializedResponses.add(deserialize(response.getBody().toString()));
-           }
-        }
-        //DEBUGGING - print out all responses.
-        for (SuccessfulResponse sr: deserializedResponses)
-        {
-            System.out.println("Options for "+sr.getSupplierID());
-            for (Option option: sr.getOptions())
+            //Get the response
+            ResponseEntity responseEntity =  getResponse(q, id);
+            if (responseEntity.getStatusCodeValue() == 200) //is the response containing the options we're expecting?
             {
-                if (TAXI_CAPACITY.get(option.carType) >= requiredCapacity)
+                //Deserialize response
+                SuccessfulResponse response = deserialize(responseEntity.getBody().toString());
+                //Add all options into the allOptions array
+                for (Option option: response.getOptions())
                 {
-                    System.out.println(option.carType + " - " + option.price);
+                    if (TAXI_CAPACITY.get(option.carType) >= requiredCapacity)
+                    {
+                        option.supplierID = id;
+                        allOptions.add(option); //create a new option with the correct ID
+                    }
+
                 }
             }
+
+        }
+        //Create a filtered list of just the cheapest options.
+        for (Option option: allOptions)
+        {
+
+        }
+
+        //DEBUGGING - print out all options.
+        for (Option option: allOptions)
+        {
+
+                if (TAXI_CAPACITY.get(option.carType) >= requiredCapacity)
+                {
+                    System.out.println(option.carType + " - " + option.price + " - " + option.supplierID);
+                }
+
         }
         //Filter the list down to the cheapest ones.
+
+                //find the car type in the cheapestOptions array
+                //did we find it?
+                    //is the option we have cheaper than that option?
+                         //replace with this option
+                    //else - add this option in.
+
+
 
         //Return a list of the cheapest.
         return null;
     }
     @Bean
-    public ResponseEntity getResponse(Query query, String supplierID) throws HttpClientErrorException
+    public ResponseEntity getResponse(Query query, String supplierID) throws HttpClientErrorException, HttpServerErrorException
     {
         RestTemplate restTemplate = new RestTemplate();
 

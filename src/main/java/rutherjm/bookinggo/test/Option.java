@@ -7,4 +7,6 @@ public class Option{
     public String carType;
     @JsonProperty("price")
     public int price;
+    public String supplierID;
+
 }
