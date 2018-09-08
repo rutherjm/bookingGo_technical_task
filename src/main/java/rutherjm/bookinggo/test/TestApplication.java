@@ -24,8 +24,7 @@ public class TestApplication {
         AccessSupplierService as = new AccessSupplierService();
 
         //Get parameters for query
-        System.out.println("Supplier ID: ");
-        supplierid = input.next();
+        supplierid = "dave";
         System.out.println("Pick up latitude: ");
         pickuplat = input.nextDouble();
         System.out.println("Pick up longitude: ");
