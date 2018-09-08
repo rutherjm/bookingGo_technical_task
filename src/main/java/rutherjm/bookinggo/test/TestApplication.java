@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 @SpringBootApplication
 public class TestApplication {
 
@@ -18,6 +21,7 @@ public class TestApplication {
 
         if (response.getStatusCode() == HttpStatus.OK){
             SuccessfulResponse sr = JsonUtils.deserialize(response.getBody().toString());
+            Arrays.sort(sr.getOptions(), new SortByPrice());
             for (Option option: sr.getOptions())
             {
                 System.out.println(option.carType + " - " + option.price);
