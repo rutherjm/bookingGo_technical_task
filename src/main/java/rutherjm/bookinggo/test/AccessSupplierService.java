@@ -2,6 +2,7 @@ package rutherjm.bookinggo.test;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -9,7 +10,7 @@ import static rutherjm.bookinggo.test.ConstantUtils.API_HOSTNAME;
 
 public class AccessSupplierService {
     @Bean
-    public String getResponse(Query query)
+    public ResponseEntity getResponse(Query query) throws HttpClientErrorException
     {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -29,6 +30,7 @@ public class AccessSupplierService {
                 HttpMethod.GET,
                 entity,
                 String.class);
-        return (response.getBody());
+
+        return response;
     }
 }

@@ -18,4 +18,17 @@ public class JsonUtils {
         }
         return response;
     }
+    public static ErrorResponse deserializeError(String json)
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        ErrorResponse response = new ErrorResponse();
+        try{
+            response = mapper.readValue(json, ErrorResponse.class);
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
+        return response;
+    }
 }
