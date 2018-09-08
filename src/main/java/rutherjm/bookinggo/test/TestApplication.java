@@ -12,6 +12,11 @@ public class TestApplication {
 
         AccessSupplierService as = new AccessSupplierService();
 
-        System.out.println(as.getResponse(new Query("dave", new Coordinate(3.410632, -2.157533),new Coordinate(3.410632, -2.157533))));
+        String response = (as.getResponse(new Query("dave", new Coordinate(3.410632, -2.157533),new Coordinate(3.410632, -2.157533))));
+        SuccessfulResponse sr = JsonUtils.deserialize(response);
+
+        System.out.println(sr.getOptions()[1].carType);
+
+
 	}
 }

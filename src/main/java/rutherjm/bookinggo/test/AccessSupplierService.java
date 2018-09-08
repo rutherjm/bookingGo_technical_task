@@ -29,6 +29,6 @@ public class AccessSupplierService {
                 HttpMethod.GET,
                 entity,
                 String.class);
-        return (response.toString());
+        return (response.getBody());
     }
 }
