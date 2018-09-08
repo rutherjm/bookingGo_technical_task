@@ -8,7 +8,6 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.xml.ws.Response;
 import java.util.ArrayList;
 
 import static rutherjm.bookinggo.test.ConstantUtils.*;
@@ -19,9 +18,9 @@ public class AccessSupplierService {
     /**
      * Takes in a query, crawls through all of the pre-set APIs, and returns an array of options for the cheapest.
      * @param q a query object.
-     * @return cheapest options for each type. (null if none available)
+     * @return cheapest options for each type.
      */
-    public Option[] getOptionSet(Query q, int requiredCapacity)
+    public ArrayList<ArrayOption> getOptionSet(Query q, int requiredCapacity)
     {
         TAXI_CAPACITY.put("STANDARD", 4);
         TAXI_CAPACITY.put("EXECUTIVE", 4);
@@ -32,7 +31,7 @@ public class AccessSupplierService {
 
         //Fetch responses for each supplier based on the query parameter.
         ArrayList<Option> allOptions = new ArrayList<>();
-        ArrayList<Option> cheapestOptions = new ArrayList<>();
+        ArrayList<ArrayOption> cheapestOptions = new ArrayList<>();
         for (String id : TAXI_FIRM_IDS)
         {
             //Get the response
@@ -44,44 +43,40 @@ public class AccessSupplierService {
                 //Add all options into the allOptions array
                 for (Option option: response.getOptions())
                 {
+                    //Filter list down to the taxis with the correct capacity.
                     if (TAXI_CAPACITY.get(option.carType) >= requiredCapacity)
                     {
+                        //No car type present in the cheapest list - so add it in.
                         option.supplierID = id;
-                        allOptions.add(option); //create a new option with the correct ID
+                        allOptions.add(option);
                     }
-
                 }
             }
-
-        }
-        //Create a filtered list of just the cheapest options.
-        for (Option option: allOptions)
-        {
-
         }
 
-        //DEBUGGING - print out all options.
-        for (Option option: allOptions)
-        {
 
-                if (TAXI_CAPACITY.get(option.carType) >= requiredCapacity)
+        //Filter list to the cheapest only
+        for (int i = 0; i < TAXI_TYPES.size(); i++)
+        {
+            boolean isFound = false;
+            ArrayOption cheapest = new ArrayOption("", MAX_INT_VALUE, "");
+            for (Option option: allOptions)
+            {
+                if (option.carType.equals(TAXI_TYPES.get(i)))
                 {
-                    System.out.println(option.carType + " - " + option.price + " - " + option.supplierID);
+                    if (option.price < cheapest.price)
+                    {
+                        isFound = true;
+                        cheapest = new ArrayOption(option.carType, option.price, option.supplierID);
+                    }
                 }
-
+            }
+            if (isFound)
+            {
+                cheapestOptions.add(cheapest);
+            }
         }
-        //Filter the list down to the cheapest ones.
-
-                //find the car type in the cheapestOptions array
-                //did we find it?
-                    //is the option we have cheaper than that option?
-                         //replace with this option
-                    //else - add this option in.
-
-
-
-        //Return a list of the cheapest.
-        return null;
+        return cheapestOptions;
     }
     @Bean
     public ResponseEntity getResponse(Query query, String supplierID) throws HttpClientErrorException, HttpServerErrorException

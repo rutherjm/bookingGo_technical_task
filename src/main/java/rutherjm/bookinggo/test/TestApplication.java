@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import javax.xml.ws.Response;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -39,47 +40,9 @@ public class TestApplication {
         System.out.println("Enter minimum capacity:");
         minimumCapacity = input.nextInt();
 
-
         Query q = new Query(new Coordinate(pickuplat, pickuplong),new Coordinate(dropofflat, dropofflong));
-        //sendQuery(q, minimumCapacity);
+        ArrayList<ArrayOption> options = as.getOptionSet(q, minimumCapacity);
 
-        as.getOptionSet(q, minimumCapacity);
 
 	}
-/**
-	public static void sendQuery(Query q, int minCapacity)
-    {
-        TAXI_CAPACITY.put("STANDARD", 4);
-        TAXI_CAPACITY.put("EXECUTIVE", 4);
-        TAXI_CAPACITY.put("LUXURY", 4);
-        TAXI_CAPACITY.put("PEOPLE_CARRIER", 6);
-        TAXI_CAPACITY.put("LUXURY_PEOPLE_CARRIER", 6);
-        TAXI_CAPACITY.put("MINIBUS", 16);
-
-        ResponseEntity response = new AccessSupplierService().getResponse(q);
-        if (response.getStatusCode() == HttpStatus.OK){
-            SuccessfulResponse sr = JsonUtils.deserialize(response.getBody().toString());
-
-            if (sr.getOptions().length > 0)
-            {
-                Arrays.sort(sr.getOptions(), new SortByPrice());
-                for (Option option: sr.getOptions())
-                {
-                    if (TAXI_CAPACITY.get(option.carType) >= minCapacity)
-                    {
-                        System.out.println(option.carType + " - " + option.price);
-                    }
-                }
-            }
-            else{
-                System.out.println("None available. ");
-            }
-        }
-        else if ((response.getStatusCodeValue() == 400) || (response.getStatusCodeValue() == 500)){
-            ErrorResponse er = JsonUtils.deserializeError(response.getBody().toString());
-            System.out.println(er.error);
-        }
-
-    }
- */
 }
