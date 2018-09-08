@@ -22,14 +22,12 @@ public class TestApplication {
 
 		Scanner input = new Scanner(System.in);
 
-		String supplierid;
 		Double pickuplat, pickuplong, dropofflat, dropofflong;
 		int minimumCapacity;
 
         AccessSupplierService as = new AccessSupplierService();
 
         //Get parameters for query
-        supplierid = "dave";
         System.out.println("Pick up latitude: ");
         pickuplat = input.nextDouble();
         System.out.println("Pick up longitude: ");
@@ -42,12 +40,13 @@ public class TestApplication {
         minimumCapacity = input.nextInt();
 
 
-        Query q = new Query(supplierid, new Coordinate(pickuplat, pickuplong),new Coordinate(dropofflat, dropofflong));
-        sendQuery(q, minimumCapacity);
+        Query q = new Query(new Coordinate(pickuplat, pickuplong),new Coordinate(dropofflat, dropofflong));
+        //sendQuery(q, minimumCapacity);
 
+        as.getOptionSet(q, minimumCapacity);
 
 	}
-
+/**
 	public static void sendQuery(Query q, int minCapacity)
     {
         TAXI_CAPACITY.put("STANDARD", 4);
@@ -80,5 +79,7 @@ public class TestApplication {
             ErrorResponse er = JsonUtils.deserializeError(response.getBody().toString());
             System.out.println(er.error);
         }
+
     }
+ */
 }
