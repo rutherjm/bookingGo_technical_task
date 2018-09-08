@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class TestApplication {
@@ -15,9 +16,27 @@ public class TestApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TestApplication.class, args);
 
+		Scanner input = new Scanner(System.in);
+
+		String supplierid;
+		Double pickuplat, pickuplong, dropofflat, dropofflong;
+
         AccessSupplierService as = new AccessSupplierService();
 
-        ResponseEntity response = (as.getResponse(new Query("dave", new Coordinate(3.410632, -2.157533),new Coordinate(3.410632, -2.157533))));
+        //Get parameters for query
+        System.out.println("Supplier ID: ");
+        supplierid = input.next();
+        System.out.println("Pick up latitude: ");
+        pickuplat = input.nextDouble();
+        System.out.println("Pick up longitude: ");
+        pickuplong = input.nextDouble();
+        System.out.println("drop off latitude: ");
+        dropofflat = input.nextDouble();
+        System.out.println("Drop off longitude: ");
+        dropofflong = input.nextDouble();
+        
+
+        ResponseEntity response = (as.getResponse(new Query(supplierid, new Coordinate(pickuplat, pickuplong),new Coordinate(dropofflat, dropofflong    ))));
 
         if (response.getStatusCode() == HttpStatus.OK){
             SuccessfulResponse sr = JsonUtils.deserialize(response.getBody().toString());
