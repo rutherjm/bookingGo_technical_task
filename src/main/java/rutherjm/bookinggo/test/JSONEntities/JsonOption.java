@@ -1,8 +1,8 @@
-package rutherjm.bookinggo.test;
+package rutherjm.bookinggo.test.JSONEntities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Option{
+public class JsonOption {
     @JsonProperty("car_type")
     public String carType;
     @JsonProperty("price")

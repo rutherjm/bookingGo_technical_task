@@ -1,7 +1,6 @@
 package rutherjm.bookinggo.test;
 
 
-
 public class ArrayOption {
     public String carType;
     public int price;

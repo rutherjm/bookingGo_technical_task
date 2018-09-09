@@ -1,16 +1,16 @@
-package rutherjm.bookinggo.test;
+package rutherjm.bookinggo.test.JSONEntities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ErrorResponse {
     @JsonProperty("timestamp")
-    String timestamp;
+    public String timestamp;
     @JsonProperty("status")
-    String status;
+    public String status;
     @JsonProperty("error")
-    String error;
+    public String error;
     @JsonProperty("message")
-    String message;
+    public String message;
     @JsonProperty("path")
-    String path;
+    public String path;
 }

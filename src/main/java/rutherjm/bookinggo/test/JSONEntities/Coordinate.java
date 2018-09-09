@@ -1,4 +1,4 @@
-package rutherjm.bookinggo.test;
+package rutherjm.bookinggo.test.JSONEntities;
 
 /**
  * Object representing a latitude/longitude coordinate.
