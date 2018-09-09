@@ -9,10 +9,10 @@ import java.util.Scanner;
 
 @SpringBootApplication
 public class TestApplication {
+    AccessSupplierService as = new AccessSupplierService();
 
 	public static void main(String[] args) {
 		SpringApplication.run(TestApplication.class, args);
-
 		Scanner input = new Scanner(System.in);
 
 		Double pickuplat, pickuplong, dropofflat, dropofflong;
