@@ -1,21 +1,17 @@
 package rutherjm.bookinggo.test;
 
-import org.apache.http.conn.ConnectTimeoutException;
-import org.omg.CORBA.TIMEOUT;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import rutherjm.bookinggo.test.JSONEntities.*;
+import rutherjm.bookinggo.test.JSONEntities.ErrorResponse;
+import rutherjm.bookinggo.test.JSONEntities.JsonOption;
+import rutherjm.bookinggo.test.JSONEntities.SuccessfulResponse;
 
-import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

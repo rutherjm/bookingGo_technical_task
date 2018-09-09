@@ -1,7 +1,5 @@
 package rutherjm.bookinggo.test;
 
-import jdk.jfr.events.SocketReadEvent;
-import org.apache.http.conn.ConnectTimeoutException;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
@@ -9,10 +7,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import rutherjm.bookinggo.test.JSONEntities.Coordinate;
 import rutherjm.bookinggo.test.JSONEntities.JsonOption;
-import static org.junit.Assert.assertEquals;
 
-import java.lang.reflect.Array;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 public class AccessSupplierServiceTest {
@@ -28,7 +23,7 @@ public class AccessSupplierServiceTest {
 
         try
         {
-            ResponseEntity response = as.getResponse(q, "DAVE",10000000);
+            ResponseEntity response = as.getResponse(q, "DAVE",0);
 
             passed = response.hasBody(); //we will pass if the reason has a body.
         }
@@ -54,7 +49,7 @@ public class AccessSupplierServiceTest {
 
         try
         {
-            ResponseEntity response = as.getResponse(q, "notASupplierID", 1000000);
+            ResponseEntity response = as.getResponse(q, "notASupplierID", 0);
         }
         catch(HttpClientErrorException e)
         {

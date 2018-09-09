@@ -19,28 +19,32 @@ public class TestApplication {
 		int minimumCapacity;
 
 
-        //Get parameters for query
-        System.out.println("Pick up latitude: ");
-        pickuplat = input.nextDouble();
-        System.out.println("Pick up longitude: ");
-        pickuplong = input.nextDouble();
-        System.out.println("drop off latitude: ");
-        dropofflat = input.nextDouble();
-        System.out.println("Drop off longitude: ");
-        dropofflong = input.nextDouble();
-        System.out.println("Enter minimum capacity:");
-        minimumCapacity = input.nextInt();
-
-        //Create a new query object.
-        Query q = new Query(new Coordinate(pickuplat, pickuplong),new Coordinate(dropofflat, dropofflong));
-
-
-        AccessSupplierService as = new AccessSupplierService();
-        ArrayList<ArrayOption> options = as.getOptionSet(q, minimumCapacity);
-
-        for (ArrayOption option: options)
+		while(true)
         {
-            System.out.println(option.carType + " - " + option.supplierID + " - "  + option.price);
+            //Get parameters for query
+            System.out.println("Pick up latitude: ");
+            pickuplat = input.nextDouble();
+            System.out.println("Pick up longitude: ");
+            pickuplong = input.nextDouble();
+            System.out.println("drop off latitude: ");
+            dropofflat = input.nextDouble();
+            System.out.println("Drop off longitude: ");
+            dropofflong = input.nextDouble();
+            System.out.println("Enter minimum capacity:");
+            minimumCapacity = input.nextInt();
+
+            //Create a new query object.
+            Query q = new Query(new Coordinate(pickuplat, pickuplong),new Coordinate(dropofflat, dropofflong));
+
+
+            AccessSupplierService as = new AccessSupplierService();
+            ArrayList<ArrayOption> options = as.getOptionSet(q, minimumCapacity);
+
+            for (ArrayOption option: options)
+            {
+                System.out.println(option.carType + " - " + option.supplierID + " - "  + option.price);
+            }
         }
+
 	}
 }

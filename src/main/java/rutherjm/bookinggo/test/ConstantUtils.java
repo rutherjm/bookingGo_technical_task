@@ -9,7 +9,7 @@ public class ConstantUtils {
     public static final List<String> TAXI_TYPES = Arrays.asList("STANDARD", "EXECUTIVE", "LUXURY", "PEOPLE_CARRIER", "LUXURY_PEOPLE_CARRIER", "MINIBUS");
 
     public static final int MAX_INT_VALUE = 2147483647;
-    public static final int TIMEOUT_MS = 2000000;
+    public static final int TIMEOUT_MS = 1000000;
     //ERRORS
     public static final String SUPPLIER_RESPONSE_NOT_RETRIEVED = "Supplier %s returned %s %s. Cause: %s ";
 
