@@ -13,8 +13,6 @@ import rutherjm.bookinggo.test.JSONEntities.JsonOption;
 import rutherjm.bookinggo.test.JSONEntities.SuccessfulResponse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static rutherjm.bookinggo.test.ConstantUtils.*;
 import static rutherjm.bookinggo.test.JsonUtils.deserialize;
