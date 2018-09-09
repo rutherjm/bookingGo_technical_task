@@ -36,9 +36,8 @@ public class AccessSupplierService {
         {
             //Fetch response from supplier
             try{
-                ResponseEntity responseEntity =  getResponse(q, id, TIMEOUT_MS);
-                convertResponseStringToOptionList(allJsonOptions, responseEntity.getBody().toString(), requiredCapacity);
-
+                ResponseEntity responseEntity =  getResponse(q, id, TIMEOUT_MS); //Get response
+                convertResponseStringToOptionList(allJsonOptions, responseEntity.getBody().toString(), requiredCapacity); //Convert response to option list.
             }
             catch (HttpClientErrorException | HttpServerErrorException e)
             {
@@ -48,16 +47,18 @@ public class AccessSupplierService {
             }
             catch (ResourceAccessException e)
             {
-                System.out.println("Resource access exception. Perhaps the request missed the timeout period of " + TIMEOUT_MS + "ms");
+                System.out.println(String.format(RESOURCE_ACCESS_EXCEPTION_ERROR, TIMEOUT_MS));
             }
         }
-        cheapestOptions = filterCheapestOptions(allJsonOptions);
-        return cheapestOptions;
+        cheapestOptions = filterCheapestOptions(allJsonOptions); //Fetch the cheapest options from the list we have
+        return cheapestOptions; //return the cheapest options.
     }
 
     /**
      * Takes in a response body and fetches any options within it.
+     * @param list the list to append the results to
      * @param body response body.
+     * @param requiredCapacity the minimum capacity for the taxis.
      */
     private void convertResponseStringToOptionList(ArrayList<JsonOption> list, String body, int requiredCapacity)
     {

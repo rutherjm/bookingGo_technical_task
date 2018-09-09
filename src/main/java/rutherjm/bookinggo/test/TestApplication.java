@@ -17,7 +17,7 @@ public class TestApplication {
 		Double pickuplat, pickuplong, dropofflat, dropofflong;
 		int minimumCapacity;
 
-
+		//Start accepting command-line based input.
 		while(true)
         {
             //Get parameters for query
