@@ -40,9 +40,6 @@ public class WebController {
         AccessSupplierService as = new AccessSupplierService();
         ArrayList<ArrayOption> list= as.getOptionSet(q, capacity);
 
-        Map<String, Object> resultAsMap = new HashMap<>();
-        resultAsMap.put("options", list);
-
         ObjectMapper getJson = new ObjectMapper();
         try
         {
