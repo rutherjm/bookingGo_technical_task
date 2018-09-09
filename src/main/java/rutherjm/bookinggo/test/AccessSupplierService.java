@@ -13,8 +13,6 @@ import rutherjm.bookinggo.test.JSONEntities.JsonOption;
 import rutherjm.bookinggo.test.JSONEntities.SuccessfulResponse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static rutherjm.bookinggo.test.ConstantUtils.*;
 import static rutherjm.bookinggo.test.JsonUtils.deserialize;
@@ -124,13 +122,6 @@ public class AccessSupplierService {
      */
     public boolean doesTaxiMeetCapacity(String carType, int requiredCapacity)
     {
-        Map<String, Integer> TAXI_CAPACITY = new HashMap<>();
-        TAXI_CAPACITY.put("STANDARD", 4);
-        TAXI_CAPACITY.put("EXECUTIVE", 4);
-        TAXI_CAPACITY.put("LUXURY", 4);
-        TAXI_CAPACITY.put("PEOPLE_CARRIER", 6);
-        TAXI_CAPACITY.put("LUXURY_PEOPLE_CARRIER", 6);
-        TAXI_CAPACITY.put("MINIBUS", 16);
 
         if (TAXI_CAPACITY.get(carType) >= requiredCapacity) return true; //taxi meets capacity.
         return false; //taxi doesn't meet capacity.
