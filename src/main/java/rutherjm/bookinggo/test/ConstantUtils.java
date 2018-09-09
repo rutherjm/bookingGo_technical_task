@@ -14,6 +14,7 @@ public class ConstantUtils {
     public static final int TIMEOUT_MS = 2000;
     //ERRORS
     public static final String SUPPLIER_RESPONSE_NOT_RETRIEVED = "Supplier %s returned %s %s. Cause: %s ";
+    public static final String RESOURCE_ACCESS_EXCEPTION_ERROR = "Resource access exception. Perhaps the request missed the timeout period of %sms";
 
     //Taxi capacities.
     public static final Map<String, Integer> TAXI_CAPACITY = new HashMap<String, Integer>()

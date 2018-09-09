@@ -7,6 +7,11 @@ import rutherjm.bookinggo.test.JSONEntities.SuccessfulResponse;
 import java.io.IOException;
 
 public class JsonUtils {
+    /**
+     * Converts JSON to a SuccessfulResponse object.
+     * @param json json string.
+     * @return the object representation of the json string.
+     */
     public static SuccessfulResponse deserialize(String json)
     {
         ObjectMapper mapper = new ObjectMapper();
@@ -21,6 +26,11 @@ public class JsonUtils {
         }
         return response;
     }
+    /**
+     * Converts JSON to a ErrorResponse object.
+     * @param json json string.
+     * @return the object representation of the json string.
+     */
     public static ErrorResponse deserializeError(String json)
     {
         ObjectMapper mapper = new ObjectMapper();
