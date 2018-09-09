@@ -23,7 +23,7 @@ public class AccessSupplierServiceTest {
 
         try
         {
-            ResponseEntity response = as.getResponse(q, "DAVE",0);
+            ResponseEntity response = as.getResponse(q, "DAVE",0); //a timeout of '0' indicates no time-out.
 
             passed = response.hasBody(); //we will pass if the reason has a body.
         }
