@@ -1,5 +1,7 @@
 package rutherjm.bookinggo.test;
 
+import rutherjm.bookinggo.test.JSONEntities.Coordinate;
+
 public class Query {
     private Coordinate pickup, dropoff;
     public Query(Coordinate pickup, Coordinate dropoff)
