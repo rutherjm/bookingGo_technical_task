@@ -1,7 +1,9 @@
 package rutherjm.bookinggo.test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConstantUtils {
     public static final String API_HOSTNAME = "https://techtest.rideways.com/";
@@ -12,5 +14,16 @@ public class ConstantUtils {
     public static final int TIMEOUT_MS = 2000000;
     //ERRORS
     public static final String SUPPLIER_RESPONSE_NOT_RETRIEVED = "Supplier %s returned %s %s. Cause: %s ";
+
+    //Taxi capacities.
+    public static final Map<String, Integer> TAXI_CAPACITY = new HashMap<String, Integer>()
+    {{
+        put("STANDARD", 4);
+        put("EXECUTIVE", 4);
+        put("LUXURY", 4);
+        put("PEOPLE_CARRIER", 6);
+        put("LUXURY_PEOPLE_CARRIER", 6);
+        put("MINIBUS", 16);
+    }};
 
 }
