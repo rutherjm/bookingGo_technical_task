@@ -30,6 +30,7 @@ public class WebController {
                                            @RequestParam("dropofflong") double dropofflong,
                                            @RequestParam("capacity") int capacity)
     {
+        //Create the header to show our response will be of JSON format.
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -40,15 +41,19 @@ public class WebController {
         AccessSupplierService as = new AccessSupplierService();
         ArrayList<ArrayOption> list= as.getOptionSet(q, capacity);
 
+        //Create a new object mapper to turn the ArrayList into JSON format so we can send it.
         ObjectMapper getJson = new ObjectMapper();
         try
         {
+            //Convert the ArrayList to JSON.
             String jsonstring = getJson.writerWithDefaultPrettyPrinter()
                     .writeValueAsString(list);
+            //Respond with the JSON.
             return(new ResponseEntity<>(jsonstring, headers, HttpStatus.OK));
         }
         catch(JsonProcessingException e)
         {
+            //Error occurred - inform the user.
             return(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
