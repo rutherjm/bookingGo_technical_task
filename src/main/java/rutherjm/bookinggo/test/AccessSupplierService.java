@@ -1,15 +1,21 @@
 package rutherjm.bookinggo.test;
 
+import org.apache.http.conn.ConnectTimeoutException;
+import org.omg.CORBA.TIMEOUT;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import rutherjm.bookinggo.test.JSONEntities.ErrorResponse;
-import rutherjm.bookinggo.test.JSONEntities.JsonOption;
-import rutherjm.bookinggo.test.JSONEntities.SuccessfulResponse;
+import rutherjm.bookinggo.test.JSONEntities.*;
 
+import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +42,7 @@ public class AccessSupplierService {
         {
             //Fetch response from supplier
             try{
-                ResponseEntity responseEntity =  getResponse(q, id);
+                ResponseEntity responseEntity =  getResponse(q, id, TIMEOUT_MS);
                 convertResponseStringToOptionList(allJsonOptions, responseEntity.getBody().toString(), requiredCapacity);
 
             }
@@ -46,10 +52,10 @@ public class AccessSupplierService {
                 ErrorResponse response = deserializeError(e.getResponseBodyAsString());
                 System.out.println(String.format(SUPPLIER_RESPONSE_NOT_RETRIEVED, response.path, response.status, response.error, response.message));
             }
-        }
-        for (JsonOption opt: allJsonOptions)
-        {
-            System.out.println("+1!");
+            catch (ResourceAccessException e)
+            {
+                System.out.println("Resource access exception. Perhaps the request missed the timeout period of " + TIMEOUT_MS + "ms");
+            }
         }
         cheapestOptions = filterCheapestOptions(allJsonOptions);
         return cheapestOptions;
@@ -83,7 +89,7 @@ public class AccessSupplierService {
      * @param all all the options.
      * @return the filtered options.
      */
-    private ArrayList<ArrayOption> filterCheapestOptions(ArrayList<JsonOption> all)
+    public ArrayList<ArrayOption> filterCheapestOptions(ArrayList<JsonOption> all)
     {
         ArrayList<ArrayOption> cheapestOptions = new ArrayList<>();
 
@@ -120,7 +126,7 @@ public class AccessSupplierService {
      * @param requiredCapacity the capacity required.
      * @return true if taxi meets capacity.
      */
-    private boolean doesTaxiMeetCapacity(String carType, int requiredCapacity)
+    public boolean doesTaxiMeetCapacity(String carType, int requiredCapacity)
     {
         Map<String, Integer> TAXI_CAPACITY = new HashMap<>();
         TAXI_CAPACITY.put("STANDARD", 4);
@@ -133,6 +139,7 @@ public class AccessSupplierService {
         if (TAXI_CAPACITY.get(carType) >= requiredCapacity) return true; //taxi meets capacity.
         return false; //taxi doesn't meet capacity.
     }
+
     /**
      * Fetches a response from the supplier.
      * @param query the query to fetch a response for.
@@ -142,10 +149,17 @@ public class AccessSupplierService {
      * @throws HttpServerErrorException
      */
     @Bean
-    public ResponseEntity getResponse(Query query, String supplierID) throws HttpClientErrorException, HttpServerErrorException
+    public ResponseEntity getResponse(Query query, String supplierID, int timeout) throws HttpClientErrorException, HttpServerErrorException, ResourceAccessException
     {
-        RestTemplate restTemplate = new RestTemplate();
 
+        //set timeouts
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory
+                = new HttpComponentsClientHttpRequestFactory();
+        clientHttpRequestFactory.setConnectTimeout(timeout);
+        clientHttpRequestFactory.setReadTimeout(timeout);
+
+        //Create a new RestTemplate with the timeout set.
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         //Configure headers
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -166,6 +180,8 @@ public class AccessSupplierService {
                     HttpMethod.GET,
                     entity,
                     String.class);
+
+
             return response;
 
     }
