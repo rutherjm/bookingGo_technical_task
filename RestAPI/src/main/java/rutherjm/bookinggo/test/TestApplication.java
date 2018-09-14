@@ -12,7 +12,7 @@ public class TestApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TestApplication.class, args);
-		/**
+
 		Scanner input = new Scanner(System.in);
 
 		Double pickuplat, pickuplong, dropofflat, dropofflong;
@@ -46,7 +46,7 @@ public class TestApplication {
                 System.out.println(option.carType + " - " + option.supplierID + " - "  + option.price);
             }
         }
-*/
+
 	}
 
     /**
