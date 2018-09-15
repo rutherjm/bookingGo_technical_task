@@ -28,7 +28,7 @@ java -jar Part1-PrintSearchResultsWithFilter.jar
 
 ## Part 2
 ### Starting the API:
-cd bookingGo_technical_task
+cd bookingGo_technical_task 
 java -jar Part2-RestAPI.jar
 
 ### Sample request
