@@ -57,7 +57,7 @@ public class AccessSupplierServiceTest {
         }
         catch(ResourceAccessException e)
         {
-            assert(false);
+            assert(false); //We shouldn't get this - as timeout is set to infinite (0).
         }
     }
 
