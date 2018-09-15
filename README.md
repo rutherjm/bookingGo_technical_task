@@ -27,10 +27,10 @@ cd bookingGo_technical_task
 java -jar Part1-PrintSearchResultsWithFilter.jar
 
 ## Part 2
-###Starting the API:
+### Starting the API:
 cd bookingGo_technical_task
 java -jar Part2-RestAPI.jar
 
-##Sample request
+### Sample request
 NOTE: This has been pre-packaged to use port '9090'. If this is unsuitable, you are able to change it in the 'application.properties' file within the project folder. You will then be able to run it from IntelliJ.
 http://localhost:9090/getCheapestTaxis?pickuplat=4&pickuplong=2&dropofflat=9&dropofflong=4&capacity=4
