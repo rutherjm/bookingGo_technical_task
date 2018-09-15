@@ -1,15 +1,15 @@
 #  BookingGo Techincal Test Submission
 
 ## Setup
-This project is a Maven Spring-Boot Project, written in Java using IntelliJ IDEA Community Edition 2018.2.1. I therefore recommend that you import these projects through IntelliJ.
-1) Download this GitHub Project.
-2) Each folder in the root of this GitHub repository is a seperate project folder. The steps below guide you through importing said projects.
-  a) Open IntelliJ
-  b) On the welcome screen, select  'Import Project'
-  c) Select the project folder that you are importing, click OK. 
-  d) Select 'Import project from external model', select 'Maven', click 'Next'.
-  e) For the next three steps: Keep default settings, click 'Next'.
-  h) Keep default settings, click 'Finish'.
+This project is a Maven Spring-Boot Project, written in Java using IntelliJ IDEA Community Edition 2018.2.1. I therefore recommend that you import these projects through IntelliJ.<br>
+1) Download this GitHub Project.<br>
+2) Each folder in the root of this GitHub repository is a seperate project folder. The steps below guide you through importing said projects.<br>
+  a) Open IntelliJ<br>
+  b) On the welcome screen, select  'Import Project'<br>
+  c) Select the project folder that you are importing, click OK. <br>
+  d) Select 'Import project from external model', select 'Maven', click 'Next'.<br>
+  e) For the next three steps: Keep default settings, click 'Next'.<br>
+  f) Keep default settings, click 'Finish'.<br>
 
 The dependencies should be automatically downloaded by Maven. 
 
