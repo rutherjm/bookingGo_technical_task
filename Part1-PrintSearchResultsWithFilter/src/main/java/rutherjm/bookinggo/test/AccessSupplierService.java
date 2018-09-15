@@ -21,23 +21,20 @@ import static rutherjm.bookinggo.test.JsonUtils.deserializeError;
 public class AccessSupplierService {
 
     /**
-     * Takes in a query, crawls through all of the pre-set APIs, and returns an array of options for the cheapest.
+     * Takes in a query, crawls through all of the pre-set APIs, and returns an array of options.
      * @param q a query object.
-     * @return cheapest options for each type.
+     * @return options for each type.
      */
-    public ArrayList<ArrayOption> getOptionSet(Query q, int requiredCapacity)
+    public ArrayList<JsonOption> getOptionSet(Query q)
     {
         //Fetch responses for each supplier based on the query parameter.
         ArrayList<JsonOption> allJsonOptions = new ArrayList<>();
-        ArrayList<ArrayOption> cheapestOptions;
 
         //Go through each supplier
-        for (String id : TAXI_FIRM_IDS)
-        {
             //Fetch response from supplier
             try{
-                ResponseEntity responseEntity =  getResponse(q, id, TIMEOUT_MS); //Get response
-                convertResponseStringToOptionList(allJsonOptions, responseEntity.getBody().toString(), requiredCapacity); //Convert response to option list.
+                ResponseEntity responseEntity =  getResponse(q, TIMEOUT_MS); //Get response
+                convertResponseStringToOptionList(allJsonOptions, responseEntity.getBody().toString()); //Convert response to option list.
             }
             catch (HttpClientErrorException | HttpServerErrorException e)
             {
@@ -49,18 +46,15 @@ public class AccessSupplierService {
             {
                 System.out.println(String.format(RESOURCE_ACCESS_EXCEPTION_ERROR, TIMEOUT_MS));
             }
-        }
-        cheapestOptions = filterCheapestOptions(allJsonOptions); //Fetch the cheapest options from the list we have
-        return cheapestOptions; //return the cheapest options.
+        return allJsonOptions; //return the options.
     }
 
     /**
      * Takes in a response body and fetches any options within it.
      * @param list the list to append the results to
      * @param body response body.
-     * @param requiredCapacity the minimum capacity for the taxis.
      */
-    private void convertResponseStringToOptionList(ArrayList<JsonOption> list, String body, int requiredCapacity)
+    private void convertResponseStringToOptionList(ArrayList<JsonOption> list, String body)
     {
         //Response is OK - read it.
         //Deserialize response.
@@ -70,74 +64,19 @@ public class AccessSupplierService {
             //Add all options within the response into the allJsonOptions array
             for (JsonOption jsonOption : response.getOptions())
             {
-                //Filter list down to the taxis with the correct capacity.
-                if (doesTaxiMeetCapacity(jsonOption.carType, requiredCapacity))
-                {
-                    //No car type present in the cheapest list - so add it in.
                     jsonOption.supplierID = response.supplierID;
                     list.add(jsonOption);
-                }
             }
     }
-    /**
-     * Takes a list of all options, and returns a list with the cheapest options for that type.
-     * @param all all the options.
-     * @return the filtered options.
-     */
-    public ArrayList<ArrayOption> filterCheapestOptions(ArrayList<JsonOption> all)
-    {
-        ArrayList<ArrayOption> cheapestOptions = new ArrayList<>();
-
-        //Filter the allJsonOptions ArrayList to the cheapest only.
-        for (int i = 0; i < TAXI_TYPES.size(); i++)
-        {
-            //For each taxi type
-            boolean isFound = false; //Represents whether a cheaper jsonOption has been found.
-
-            ArrayOption cheapest = new ArrayOption("", MAX_INT_VALUE, ""); //An element with the highest possible price to compare against.
-            for (JsonOption jsonOption : all) //Go through each jsonOption
-            {
-                //For each jsonOption
-                if (jsonOption.carType.equals(TAXI_TYPES.get(i))) //Does this jsonOption carType equal the one we're currently looking for?
-                {
-                    if (jsonOption.price < cheapest.price) //If this is a cheaper jsonOption than the one we've already found
-                    {
-                        isFound = true; //mark as we've found a cheaper jsonOption.
-                        cheapest = new ArrayOption(jsonOption.carType, jsonOption.price, jsonOption.supplierID); //set this jsonOption as the cheapest.
-                    }
-                }
-            }
-            if (isFound)
-            {
-                //we found a valid jsonOption to add.
-                cheapestOptions.add(cheapest); //add the cheapest jsonOption to the array.
-            }
-        }
-        return cheapestOptions;
-    }
-    /**
-     * Checks if a car type meets the required capacity.
-     * @param carType the car type to check against.
-     * @param requiredCapacity the capacity required.
-     * @return true if taxi meets capacity.
-     */
-    public boolean doesTaxiMeetCapacity(String carType, int requiredCapacity)
-    {
-
-        if (TAXI_CAPACITY.get(carType) >= requiredCapacity) return true; //taxi meets capacity.
-        return false; //taxi doesn't meet capacity.
-    }
-
     /**
      * Fetches a response from the supplier.
      * @param query the query to fetch a response for.
-     * @param supplierID the supplier we're contacting
      * @return the response
      * @throws HttpClientErrorException
      * @throws HttpServerErrorException
      */
     @Bean
-    public ResponseEntity getResponse(Query query, String supplierID, int timeout) throws HttpClientErrorException, HttpServerErrorException, ResourceAccessException
+    public ResponseEntity getResponse(Query query, int timeout) throws HttpClientErrorException, HttpServerErrorException, ResourceAccessException
     {
 
         //set timeouts
@@ -154,7 +93,7 @@ public class AccessSupplierService {
 
         //Create the URL to use with the correct query.
         UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(API_HOSTNAME)
-                .path(supplierID)
+                .path(TAXI_FIRM_ID)
                 .queryParam("pickup", query.getPickUp().getX() + "," + query.getPickUp().getY())
             .queryParam("dropoff", query.getDropOff().getX() + "," + query.getDropOff().getY());
 
@@ -162,14 +101,11 @@ public class AccessSupplierService {
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
         //Fetch the response.
-
             ResponseEntity<String> response = restTemplate.exchange(
                     uri.toUriString(),
                     HttpMethod.GET,
                     entity,
                     String.class);
-
-
             return response;
 
     }
