@@ -19,17 +19,17 @@ You can also run these applications through IntelliJ.
 ## Part 1
 
 ### Console application to print the search results for Dave's Taxis
-cd bookingGo_technical_task
-java -jar Part1-PrintSearchResultsForDavesTaxis.jar
+1. cd bookingGo_technical_task
+2. java -jar Part1-PrintSearchResultsForDavesTaxis.jar
 
 ### Console application to filter by number of passengers
-cd bookingGo_technical_task
-java -jar Part1-PrintSearchResultsWithFilter.jar
+1. cd bookingGo_technical_task
+2. java -jar Part1-PrintSearchResultsWithFilter.jar
 
 ## Part 2
 ### Starting the API:
-cd bookingGo_technical_task 
-java -jar Part2-RestAPI.jar
+1. cd bookingGo_technical_task 
+2. java -jar Part2-RestAPI.jar
 
 ### Sample request
 NOTE: This has been pre-packaged to use port '9090'. If this is unsuitable, you are able to change it in the 'application.properties' file within the project folder. You will then be able to run it from IntelliJ.
