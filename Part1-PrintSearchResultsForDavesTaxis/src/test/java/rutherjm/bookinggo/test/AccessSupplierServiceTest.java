@@ -40,26 +40,4 @@ public class AccessSupplierServiceTest {
         assert(passed);
     }
 
-    /**
-     * Checks that a ClientError is thrown when the supplier ID is invalid.
-     */
-    @Test
-    public void invalidSupplierShouldBeClientError()
-    {
-        AccessSupplierService as = new AccessSupplierService();
-        Query q = new Query(new Coordinate(32, 54),new Coordinate(76, 12));
-
-        try
-        {
-            ResponseEntity response = as.getResponse(q,  0);
-        }
-        catch(HttpClientErrorException e)
-        {
-            assert(true);
-        }
-        catch(ResourceAccessException e)
-        {
-            assert(false);
-        }
-    }
 }
